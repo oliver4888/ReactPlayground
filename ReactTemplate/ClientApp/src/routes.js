@@ -1,6 +1,6 @@
 import { Home } from "./components/pages/Home";
-import { Counter } from "./components/pages/Counter";
-import { FetchData } from "./components/pages/FetchData";
+import Counter from "./components/pages/Counter";
+import FetchData from "./components/pages/FetchData";
 
 export default [
   { name: "Home", component: Home, path: "/", routeProps: { exact: true } },

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
+import routes from "../routes";
+
 export class NavMenu extends Component {
   render() {
     return (
@@ -19,15 +21,15 @@ export class NavMenu extends Component {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse>
               <Nav className="mr-auto">
-                <LinkContainer className="text-dark" to="/">
-                  <Nav.Link>Home</Nav.Link>
-                </LinkContainer>
-                <LinkContainer className="text-dark" to="/counter">
-                  <Nav.Link>Counter</Nav.Link>
-                </LinkContainer>
-                <LinkContainer className="text-dark" to="/fetch-data">
-                  <Nav.Link>Fetch data</Nav.Link>
-                </LinkContainer>
+                {routes.map((route, idx) => (
+                  <LinkContainer
+                    key={idx}
+                    className="text-dark"
+                    to={route.path}
+                  >
+                    <Nav.Link>{route.name}</Nav.Link>
+                  </LinkContainer>
+                ))}
               </Nav>
             </Navbar.Collapse>
           </Container>

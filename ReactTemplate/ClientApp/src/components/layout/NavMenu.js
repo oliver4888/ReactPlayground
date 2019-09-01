@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
-import routes from "../routes";
+import routes from "../../routes";
 
 export class NavMenu extends Component {
   render() {

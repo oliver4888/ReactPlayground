@@ -1,0 +1,4 @@
+# Example robots.txt file.
+
+User-agent: *
+Disallow: /fetch-data

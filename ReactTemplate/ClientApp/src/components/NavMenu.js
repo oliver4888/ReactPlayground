@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import "./NavMenu.css";
 
 export class NavMenu extends Component {
   render() {

@@ -1,6 +1,10 @@
+using System;
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+
+using Serilog;
 
 using ReactTemplate.Config;
 
@@ -16,11 +20,29 @@ namespace ReactTemplate
 
             AppSettings = new AppSettings(configuration);
 
-            CreateWebHostBuilder(args).Build().Run();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .Enrich.FromLogContext()
+                .CreateLogger();
+
+            try
+            {
+                Log.Information("Creating web host...");
+                CreateWebHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "WebHost exception");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .UseStartup<Startup>()
                 .UseUrls(AppSettings.HostingConfig.Urls); // This doesn't do anything at the moment
     }

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
+using Serilog;
+
 using ReactTemplate.Config;
 
 namespace ReactTemplate
@@ -21,6 +23,8 @@ namespace ReactTemplate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
             services.AddSingleton(Program.AppSettings);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

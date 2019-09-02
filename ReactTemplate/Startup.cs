@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+
+using ReactTemplate.Config;
 
 namespace ReactTemplate
 {
@@ -20,6 +21,8 @@ namespace ReactTemplate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(Program.AppSettings);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the React files will be served from this directory
@@ -30,7 +33,7 @@ namespace ReactTemplate
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAppSettings appSettings)
         {
             if (env.IsDevelopment())
             {
@@ -39,11 +42,14 @@ namespace ReactTemplate
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+
+                if (appSettings.HostingConfig.UseHttps)
+                    app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            if (appSettings.HostingConfig.UseHttps)
+                app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
